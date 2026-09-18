@@ -1,9 +1,8 @@
 NAME = codexion
-SRC = src/main.c
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
-OBJS = $(SRC:.c=.o)
-RM = rm -f
+CFLAGS = -Wall -Wextra -Werror -pthread
+SRCS = src/main.c src/parsing.c src/utils.c src/logger.c src/init.c src/heap.c src/dongle.c src/scheduler_fifo.c src/scheduler_edf.c src/coder.c src/monitor.c src/cleanup.c
+OBJS = $(SRCS:.c=.o)
 
 all: $(NAME)
 
@@ -11,13 +10,13 @@ $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJS)
 
 %.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -Iincludes -c $< -o $@
 
 clean:
-	$(RM) $(OBJS)
+	rm -f $(OBJS)
 
 fclean: clean
-	$(RM) $(NAME)
+	rm -f $(NAME)
 
 re: fclean all
 
